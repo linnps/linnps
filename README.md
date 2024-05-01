@@ -1,7 +1,7 @@
 <img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=yourGitHub.yourGitHub" />
 
 <h1 align="center">
-    <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Hi+There!+👋;+I'm+[Your+Name]!;" />
+    <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Hi+There!+👋;+I'm+Ander!;" />
 </h1>
 
 <h3 align="center">A pioneering Scientific Research Engineer from the USA 🇺🇸</h3>
@@ -10,24 +10,24 @@
 
 <div align="center">
  
- 🔭 I’m currently leading innovative projects in **semiconductor devices, biosensors, and ML-driven tech**
+ 🔭 I’m currently leading innovative projects in **semiconductor devices and ML-driven tech**
 
  🌱 I’m continuously advancing in **AI, Machine Learning, and Big Data Analytics**
 
-💬 Ask me about **biosensor design, semiconductor technology, clean room operations... or anything [here](https://github.com/yourGitHub/yourGitHub/issues)**
+💬 Ask me about **Latest semiconductor technology, clean room operations... or anything [here](https://github.com/yourGitHub/yourGitHub/issues)**
 
 ⚡ Fun fact **I've led projects that turned groundbreaking theories into commercial products**
 
  </div>
  
 <div align="center"> 
-  <a href="mailto:your.email@example.com">
+  <a href="linnps@gmail.com">
     <img src="https://img.shields.io/badge/Gmail-333333?style=for-the-badge&logo=gmail&logoColor=red" />
   </a>
-  <a href="https://linkedin.com/in/your-linkedin" target="_blank">
+  <a href="https://www.linkedin.com/in/li-kai-lin/" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" />
   </a>
-  <a href="https://yourwebsite.com" target="_blank">
+  <a href="https://linnps.github.io/cv/index.html" target="_blank">
      <img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white" target="_blank" />
   </a>
 </div>
@@ -44,9 +44,9 @@
 <hr/>
 
 <div align="center">
-  <h2>🔬 My Scientific Contributions 🔬</h2>
+  <h2>🔬 My Contributions 🔬</h2>
   <br>
-  <img alt="snake game visualization of my contributions" src="https://raw.githubusercontent.com/yourGitHub/yourGitHub/output/github-contribution-grid-snake.svg" />
+  <img alt="Comming soon" src="https://raw.githubusercontent.com/yourGitHub/yourGitHub/output/github-contribution-grid-snake.svg" />
   
   <br/><br/><br/>
 </div>
