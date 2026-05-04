@@ -156,7 +156,9 @@ rendered for each device type.
 
 ---
 
-## Stats
+## Stats & Activity
+
+#### Counters
 
 <div align="center">
 
@@ -164,14 +166,37 @@ rendered for each device type.
 &nbsp;
 <img src="./assets/cards/top-langs.svg" alt="Most used languages" height="210" />
 
-<br/>
+</div>
+
+#### Activity over time
+
+<div align="center">
+
+<img src="./assets/cards/streak.svg" alt="Total / current / longest streak" width="700" />
+
 <br/>
 
-<img src="./assets/cards/streak.svg" alt="Activity & streaks" width="700" />
+<img src="./assets/cards/activity-graph.svg" alt="Full-year contribution heatmap" width="780" />
+
+<br/>
+
+<img src="./assets/cards/weekly-trend.svg" alt="Weekly contribution trend" width="700" />
 
 </div>
 
-<sub>The three cards above are **self-generated** by [`scripts/generate_cards.py`](./scripts/generate_cards.py) on a daily GitHub Action ([workflow](./.github/workflows/update-cards.yml)) — no third-party stat-card service in the loop, so no `DEPLOYMENT_PAUSED` outages and no profile data sent to anyone else's server.</sub>
+#### Repositories
+
+<div align="center">
+
+<img src="./assets/cards/top-repos.svg" alt="Top starred repositories" width="700" />
+
+<br/>
+
+<img src="./assets/cards/repo-tiles.svg" alt="All public repos coloured by primary language" width="700" />
+
+</div>
+
+<sub>All seven cards are **self-generated** by [`scripts/generate_cards.py`](./scripts/generate_cards.py) on a daily GitHub Action ([workflow](./.github/workflows/update-cards.yml)) that calls the GitHub GraphQL API and renders SVGs in the portfolio palette. No third-party stats service in the loop — no `DEPLOYMENT_PAUSED` outages, no profile data sent to anyone else's server, and any colour or layout can be changed by editing one Python file.</sub>
 
 ---
 
