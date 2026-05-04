@@ -10,13 +10,15 @@ Run in GitHub Actions:
       GH_USER: linnps
 
 Outputs (all under assets/cards/):
-    stats.svg            340 × 210 — six headline counters
-    top-langs.svg        340 × 210 — top languages with horizontal bars
-    streak.svg           700 × 200 — total / current / longest contributions
-    activity-graph.svg   780 × 150 — full-year contribution heatmap
-    weekly-trend.svg     700 × 200 — area chart of last 26 weeks of activity
-    top-repos.svg        700 × 230 — top-starred non-fork repos with metadata
-    repo-tiles.svg       700 × 180 — mosaic of every public repo coloured by primary language
+    stats.svg                340 × 195 — six headline counters
+    top-langs.svg            340 × 195 — top languages with horizontal bars
+    streak.svg               340 × 195 — total / current / longest contributions
+    weekday-distribution.svg 340 × 195 — bar histogram of contributions by weekday
+    cumulative-curve.svg     340 × 195 — running-total curve over the year
+    weekly-trend.svg         340 × 195 — area chart of last 26 weeks
+    activity-graph.svg       780 × 150 — full-year contribution heatmap
+    top-repos.svg            700 × ... — top-starred repos with metadata
+    repo-tiles.svg           700 × 180 — mosaic of every repo by primary language
 
 Palette (same one used across the ML portfolio):
     background  #FFFFFF        title   #3B6EA8 (blue)
@@ -130,7 +132,6 @@ def aggregate(user: dict) -> dict:
     repos = user["repositories"]["nodes"]
     stars = sum(r["stargazerCount"] for r in repos)
 
-    # Languages by total bytes across non-fork repos.
     lang_size: dict[str, int] = defaultdict(int)
     lang_color: dict[str, str] = {}
     for r in repos:
@@ -145,14 +146,12 @@ def aggregate(user: dict) -> dict:
         for name, size in sorted(lang_size.items(), key=lambda x: -x[1])
     ]
 
-    # Day-by-day contribution series (chronological).
-    days: list[tuple[str, int, int]] = []   # (date, count, weekday 0=Sun)
+    days: list[tuple[str, int, int]] = []
     for w in user["contributionsCollection"]["contributionCalendar"]["weeks"]:
         for d in w["contributionDays"]:
             days.append((d["date"], d["contributionCount"], d["weekday"]))
     days.sort(key=lambda x: x[0])
 
-    # Streaks.
     longest = run = 0
     for _, c, _ in days:
         if c > 0:
@@ -195,16 +194,16 @@ def card(width: int, height: int, body: str, title: str | None = None,
     title_xml = ""
     if title:
         title_xml = (
-            f'<text x="{width/2}" y="32" fill="{TITLE}" font-size="16" '
+            f'<text x="{width/2}" y="26" fill="{TITLE}" font-size="13" '
             f'font-weight="700" text-anchor="middle">'
             f'{escape(title)}</text>'
-            f'<line x1="20" y1="46" x2="{width-20}" y2="46" '
+            f'<line x1="16" y1="38" x2="{width-16}" y2="38" '
             f'stroke="{LIGHT}" stroke-width="0.6"/>'
         )
     sub_xml = ""
     if subtitle:
         sub_xml = (
-            f'<text x="{width/2}" y="{height-10}" fill="{MUTED}" font-size="10" '
+            f'<text x="{width/2}" y="{height-8}" fill="{MUTED}" font-size="9" '
             f'text-anchor="middle">{escape(subtitle)}</text>'
         )
     return (
@@ -228,7 +227,7 @@ def heat_color(count: int, max_count: int) -> str:
     return HEAT[idx]
 
 
-# -------------------------------------------------------------- card 1: stats
+# -------------------------------------------------------------- card 1: stats (340x195)
 def render_stats(s: dict) -> str:
     rows = [
         ("Total stars",        s["stars"]),
@@ -239,79 +238,308 @@ def render_stats(s: dict) -> str:
         ("Followers",          s["followers"]),
     ]
     parts: list[str] = []
-    y = 70
+    y = 60
     for label, value in rows:
         parts.append(
-            f'<text x="22" y="{y}" fill="{TEXT}" font-size="13">{escape(label)}</text>'
-            f'<text x="318" y="{y}" fill="{ACCENT}" font-size="14" font-weight="700" '
+            f'<text x="20" y="{y}" fill="{TEXT}" font-size="11">{escape(label)}</text>'
+            f'<text x="320" y="{y}" fill="{ACCENT}" font-size="13" font-weight="700" '
             f'text-anchor="end">{value:,}</text>'
         )
-        y += 22
+        y += 19
     today = datetime.date.today().isoformat()
-    return card(340, 210, "".join(parts),
+    return card(340, 195, "".join(parts),
                 title=f"{s['user']} — GitHub Stats",
                 subtitle=f"updated {today}")
 
 
-# -------------------------------------------------------------- card 2: top-langs
+# -------------------------------------------------------------- card 2: top-langs (340x195)
 def render_languages(s: dict) -> str:
     langs = s["languages"][:6]
     parts: list[str] = []
-    bar_x, bar_max = 120, 170
-    y = 65
+    bar_x, bar_max = 110, 175
+    y = 56
     for name, color, pct in langs:
         bw = max(2, int(bar_max * pct / 100))
         parts.append(
-            f'<text x="22" y="{y+10}" fill="{TEXT}" font-size="12">{escape(name)}</text>'
-            f'<rect x="{bar_x}" y="{y}" width="{bar_max}" height="10" '
-            f'rx="3" fill="{LIGHT}" opacity="0.55"/>'
-            f'<rect x="{bar_x}" y="{y}" width="{bw}" height="10" rx="3" fill="{color}"/>'
-            f'<text x="318" y="{y+10}" fill="{MUTED}" font-size="11" '
+            f'<text x="20" y="{y+8}" fill="{TEXT}" font-size="11">{escape(name)}</text>'
+            f'<rect x="{bar_x}" y="{y}" width="{bar_max}" height="9" '
+            f'rx="2.5" fill="{LIGHT}" opacity="0.55"/>'
+            f'<rect x="{bar_x}" y="{y}" width="{bw}" height="9" rx="2.5" fill="{color}"/>'
+            f'<text x="320" y="{y+8}" fill="{MUTED}" font-size="10" '
             f'text-anchor="end">{pct:.1f}%</text>'
         )
-        y += 22
+        y += 19
     if not langs:
-        parts.append(f'<text x="170" y="100" fill="{MUTED}" font-size="13" '
+        parts.append(f'<text x="170" y="100" fill="{MUTED}" font-size="11" '
                      f'text-anchor="middle">No language data available.</text>')
     today = datetime.date.today().isoformat()
-    return card(340, 210, "".join(parts),
+    return card(340, 195, "".join(parts),
                 title="Most Used Languages",
-                subtitle=f"by bytes across public non-fork repos · {today}")
+                subtitle=f"by bytes · {today}")
 
 
-# -------------------------------------------------------------- card 3: streak
+# -------------------------------------------------------------- card 3: streak (340x195)
 def render_streak(s: dict) -> str:
-    sections = [
-        ("Total Contributions", s["total_contributions"], "in the last year"),
-        ("Current Streak",      s["current_streak"],      "day(s)"),
-        ("Longest Streak",      s["longest_streak"],      "day(s)"),
+    rows = [
+        (s["total_contributions"], "Total Contributions", "in the last year"),
+        (s["current_streak"],      "Current Streak",      "day(s)"),
+        (s["longest_streak"],      "Longest Streak",      "day(s) — all-time peak"),
     ]
-    width = 700
-    section_w = (width - 40) / 3
     parts: list[str] = []
-    for i, (label, value, sub) in enumerate(sections):
-        cx = 20 + section_w * (i + 0.5)
+    y = 60
+    for value, label, sub in rows:
         parts.append(
-            f'<text x="{cx}" y="100" fill="{ACCENT}" font-size="38" font-weight="700" '
-            f'text-anchor="middle">{value:,}</text>'
-            f'<text x="{cx}" y="135" fill="{TEXT}" font-size="13" font-weight="700" '
-            f'text-anchor="middle">{escape(label)}</text>'
-            f'<text x="{cx}" y="155" fill="{MUTED}" font-size="11" '
-            f'text-anchor="middle">{escape(sub)}</text>'
+            f'<text x="100" y="{y}" fill="{ACCENT}" font-size="26" font-weight="700" '
+            f'text-anchor="end">{value:,}</text>'
+            f'<text x="115" y="{y-7}" fill="{TEXT}" font-size="12" font-weight="700">'
+            f'{escape(label)}</text>'
+            f'<text x="115" y="{y+7}" fill="{MUTED}" font-size="10">{escape(sub)}</text>'
         )
-        if i < 2:
-            x = 20 + section_w * (i + 1)
-            parts.append(
-                f'<line x1="{x}" y1="65" x2="{x}" y2="160" '
-                f'stroke="{LIGHT}" stroke-width="0.6"/>'
-            )
+        y += 42
     today = datetime.date.today().isoformat()
-    return card(width, 200, "".join(parts),
+    return card(340, 195, "".join(parts),
                 title=f"Activity — {s['user']}",
                 subtitle=f"updated {today}")
 
 
-# -------------------------------------------------------------- card 4: activity-graph
+# -------------------------------------------------------------- card 4: weekday histogram (340x195)
+def render_weekday_distribution(s: dict) -> str:
+    """
+    Bar histogram of total contributions by day-of-week.
+    GitHub uses weekday 0 = Sunday … 6 = Saturday.
+    """
+    width, height = 340, 195
+    by_wd = [0] * 7
+    for _, count, wd in s["days"]:
+        by_wd[wd] += count
+    labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    max_v = max(by_wd) or 1
+
+    plot_x = 38
+    plot_y = 56
+    plot_w = width - plot_x - 14
+    plot_h = height - plot_y - 38
+
+    bar_slot = plot_w / 7
+    bar_w = bar_slot * 0.62
+    parts: list[str] = []
+
+    # Y-axis gridlines (4 ticks).
+    for j in range(5):
+        y = plot_y + plot_h * (1 - j / 4)
+        v = int(round(max_v * j / 4))
+        parts.append(
+            f'<line x1="{plot_x}" y1="{y}" x2="{plot_x + plot_w}" y2="{y}" '
+            f'stroke="{GRID}" stroke-width="0.5"/>'
+            f'<text x="{plot_x - 4}" y="{y + 3}" fill="{MUTED}" font-size="8" '
+            f'text-anchor="end">{v}</text>'
+        )
+
+    max_idx = by_wd.index(max(by_wd))
+    for i, c in enumerate(by_wd):
+        cx = plot_x + (i + 0.5) * bar_slot
+        bx = cx - bar_w / 2
+        h = (c / max_v) * plot_h
+        by = plot_y + plot_h - h
+        color = ACCENT if i == max_idx and c > 0 else TITLE
+        parts.append(
+            f'<rect x="{bx:.1f}" y="{by:.1f}" width="{bar_w:.1f}" '
+            f'height="{h:.1f}" rx="2" fill="{color}">'
+            f'<title>{labels[i]}: {c} contribution(s)</title></rect>'
+        )
+        parts.append(
+            f'<text x="{cx:.1f}" y="{plot_y + plot_h + 12}" '
+            f'fill="{MUTED}" font-size="9" text-anchor="middle">{labels[i]}</text>'
+        )
+        if c > 0:
+            parts.append(
+                f'<text x="{cx:.1f}" y="{by - 3:.1f}" fill="{TEXT}" font-size="9" '
+                f'text-anchor="middle">{c}</text>'
+            )
+
+    today = datetime.date.today().isoformat()
+    return card(width, height, "".join(parts),
+                title="Weekday rhythm (last 12 months)",
+                subtitle=f"red bar = busiest weekday · {today}")
+
+
+# -------------------------------------------------------------- card 5: cumulative curve (340x195)
+def render_cumulative_curve(s: dict) -> str:
+    """Running-total curve of contributions across the past year."""
+    width, height = 340, 195
+    days = s["days"]
+    if not days:
+        return card(width, height, "", title="Cumulative contributions")
+
+    # Running sum.
+    running: list[tuple[str, int]] = []
+    total = 0
+    for date, count, _ in days:
+        total += count
+        running.append((date, total))
+
+    final = total
+    if final == 0:
+        return card(width, height,
+                    f'<text x="170" y="100" fill="{MUTED}" font-size="11" '
+                    f'text-anchor="middle">No contributions yet.</text>',
+                    title="Cumulative contributions")
+
+    plot_x = 38
+    plot_y = 54
+    plot_w = width - plot_x - 18
+    plot_h = height - plot_y - 38
+
+    n = len(running)
+    points: list[tuple[float, float]] = []
+    for i, (_, v) in enumerate(running):
+        x = plot_x + (i / max(1, n - 1)) * plot_w
+        y = plot_y + plot_h - (v / final) * plot_h
+        points.append((x, y))
+
+    parts: list[str] = []
+    # gridlines
+    for j in range(5):
+        y = plot_y + plot_h * (1 - j / 4)
+        v = int(round(final * j / 4))
+        parts.append(
+            f'<line x1="{plot_x}" y1="{y}" x2="{plot_x + plot_w}" y2="{y}" '
+            f'stroke="{GRID}" stroke-width="0.5"/>'
+            f'<text x="{plot_x - 4}" y="{y + 3}" fill="{MUTED}" font-size="8" '
+            f'text-anchor="end">{v}</text>'
+        )
+
+    # area
+    area = (
+        f"M {plot_x} {plot_y + plot_h:.1f} "
+        + " ".join(f"L {x:.1f} {y:.1f}" for x, y in points)
+        + f" L {plot_x + plot_w:.1f} {plot_y + plot_h:.1f} Z"
+    )
+    parts.append(
+        f'<path d="{area}" fill="{TITLE}" fill-opacity="0.18" stroke="none"/>'
+    )
+
+    # curve
+    curve = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in points)
+    parts.append(
+        f'<path d="{curve}" fill="none" stroke="{TITLE}" stroke-width="2" '
+        f'stroke-linejoin="round" stroke-linecap="round"/>'
+    )
+
+    # endpoint marker + total
+    fx, fy = points[-1]
+    parts.append(
+        f'<circle cx="{fx:.1f}" cy="{fy:.1f}" r="3.5" fill="{ACCENT}" '
+        f'stroke="{BG}" stroke-width="1"/>'
+    )
+    parts.append(
+        f'<text x="{fx - 8:.1f}" y="{fy - 5:.1f}" fill="{ACCENT}" font-size="11" '
+        f'font-weight="700" text-anchor="end">{final}</text>'
+    )
+
+    # x-axis labels (start, mid, end month).
+    for i in (0, n // 2, n - 1):
+        d = datetime.date.fromisoformat(running[i][0])
+        x = plot_x + (i / max(1, n - 1)) * plot_w
+        anchor = "start" if i == 0 else ("end" if i == n - 1 else "middle")
+        parts.append(
+            f'<text x="{x:.1f}" y="{plot_y + plot_h + 12}" fill="{MUTED}" '
+            f'font-size="9" text-anchor="{anchor}">{d.strftime("%b %Y")}</text>'
+        )
+
+    today = datetime.date.today().isoformat()
+    return card(width, height, "".join(parts),
+                title="Cumulative contributions",
+                subtitle=f"running total · ends at {final} on {today}")
+
+
+# -------------------------------------------------------------- card 6: weekly-trend (340x195)
+def render_weekly_trend(s: dict) -> str:
+    width, height = 340, 195
+    days = s["days"]
+    if not days:
+        return card(width, height, "", title="Weekly contribution trend")
+
+    n_weeks = 26
+    last_n = days[-n_weeks * 7:]
+    weekly_totals: list[tuple[str, int]] = []
+    for i in range(0, len(last_n), 7):
+        wk = last_n[i:i + 7]
+        if not wk:
+            continue
+        weekly_totals.append((wk[0][0], sum(c for _, c, _ in wk)))
+
+    if not weekly_totals:
+        return card(width, height, "", title="Weekly contribution trend")
+
+    plot_x = 36
+    plot_y = 56
+    plot_w = width - plot_x - 14
+    plot_h = height - plot_y - 38
+
+    max_y = max((c for _, c in weekly_totals), default=0) or 1
+    n = len(weekly_totals)
+    step = plot_w / max(1, n - 1) if n > 1 else 0
+
+    points: list[tuple[float, float]] = []
+    for i, (_, c) in enumerate(weekly_totals):
+        x = plot_x + i * step
+        y = plot_y + plot_h - (c / max_y) * plot_h
+        points.append((x, y))
+
+    parts: list[str] = []
+    for j in range(5):
+        y = plot_y + plot_h * (1 - j / 4)
+        v = int(round(max_y * j / 4))
+        parts.append(
+            f'<line x1="{plot_x}" y1="{y}" x2="{plot_x + plot_w}" y2="{y}" '
+            f'stroke="{GRID}" stroke-width="0.5"/>'
+            f'<text x="{plot_x - 4}" y="{y + 3}" fill="{MUTED}" font-size="8" '
+            f'text-anchor="end">{v}</text>'
+        )
+
+    for i in range(0, n, max(1, n // 5)):
+        d = datetime.date.fromisoformat(weekly_totals[i][0])
+        x = plot_x + i * step
+        parts.append(
+            f'<text x="{x:.1f}" y="{plot_y + plot_h + 12}" fill="{MUTED}" '
+            f'font-size="8" text-anchor="middle">{d.strftime("%b %d")}</text>'
+        )
+
+    area = (
+        f'M {plot_x} {plot_y + plot_h:.1f} '
+        + " ".join(f"L {x:.1f} {y:.1f}" for x, y in points)
+        + f' L {plot_x + (n - 1) * step:.1f} {plot_y + plot_h:.1f} Z'
+    )
+    parts.append(
+        f'<path d="{area}" fill="{TITLE}" fill-opacity="0.18" stroke="none"/>'
+    )
+
+    line_d = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in points)
+    parts.append(
+        f'<path d="{line_d}" fill="none" stroke="{TITLE}" stroke-width="2" '
+        f'stroke-linejoin="round" stroke-linecap="round"/>'
+    )
+
+    max_i = max(range(n), key=lambda i: weekly_totals[i][1])
+    for i, (x, y) in enumerate(points):
+        is_max = i == max_i and weekly_totals[i][1] > 0
+        color = ACCENT if is_max else TITLE
+        r = 3 if is_max else 1.6
+        parts.append(
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{color}" '
+            f'stroke="{BG}" stroke-width="0.8">'
+            f'<title>{weekly_totals[i][0]}: {weekly_totals[i][1]}</title>'
+            f'</circle>'
+        )
+
+    today = datetime.date.today().isoformat()
+    return card(width, height, "".join(parts),
+                title="Weekly trend (last 26 weeks)",
+                subtitle=f"red dot = peak week · {today}")
+
+
+# -------------------------------------------------------------- card 7: activity-graph (780x150)
 def render_activity_graph(s: dict) -> str:
     width = 780
     height = 150
@@ -396,105 +624,14 @@ def render_activity_graph(s: dict) -> str:
                 subtitle=f"top 15% of any day plotted in red · updated {today}")
 
 
-# -------------------------------------------------------------- card 5: weekly-trend
-def render_weekly_trend(s: dict) -> str:
-    width = 700
-    height = 200
-    days = s["days"]
-    if not days:
-        return card(width, height, "", title="Weekly contribution trend")
-
-    n_weeks = 26
-    last_n = days[-n_weeks * 7:]
-    weekly_totals: list[tuple[str, int]] = []
-    for i in range(0, len(last_n), 7):
-        week = last_n[i:i + 7]
-        if not week:
-            continue
-        weekly_totals.append((week[0][0], sum(c for _, c, _ in week)))
-
-    if not weekly_totals:
-        return card(width, height, "", title="Weekly contribution trend")
-
-    plot_x = 50
-    plot_y = 60
-    plot_w = width - 80
-    plot_h = height - 90
-
-    max_y = max((c for _, c in weekly_totals), default=0)
-    if max_y == 0:
-        max_y = 1
-
-    n = len(weekly_totals)
-    step = plot_w / max(1, n - 1) if n > 1 else 0
-
-    points: list[tuple[float, float]] = []
-    for i, (_, c) in enumerate(weekly_totals):
-        x = plot_x + i * step
-        y = plot_y + plot_h - (c / max_y) * plot_h
-        points.append((x, y))
-
-    parts: list[str] = []
-
-    for j in range(5):
-        y = plot_y + plot_h * (1 - j / 4)
-        v = int(round(max_y * j / 4))
-        parts.append(
-            f'<line x1="{plot_x}" y1="{y}" x2="{plot_x + plot_w}" y2="{y}" '
-            f'stroke="{GRID}" stroke-width="0.6"/>'
-            f'<text x="{plot_x - 6}" y="{y + 3}" fill="{MUTED}" font-size="9" '
-            f'text-anchor="end">{v}</text>'
-        )
-
-    for i in range(0, n, 4):
-        d = datetime.date.fromisoformat(weekly_totals[i][0])
-        x = plot_x + i * step
-        parts.append(
-            f'<text x="{x}" y="{plot_y + plot_h + 14}" fill="{MUTED}" font-size="9" '
-            f'text-anchor="middle">{d.strftime("%b %d")}</text>'
-        )
-
-    area = (
-        f'M {plot_x} {plot_y + plot_h} '
-        + " ".join(f"L {x:.1f} {y:.1f}" for x, y in points)
-        + f" L {plot_x + (n-1) * step:.1f} {plot_y + plot_h} Z"
-    )
-    parts.append(
-        f'<path d="{area}" fill="{TITLE}" fill-opacity="0.18" stroke="none"/>'
-    )
-
-    line_d = "M " + " L ".join(f"{x:.1f} {y:.1f}" for x, y in points)
-    parts.append(
-        f'<path d="{line_d}" fill="none" stroke="{TITLE}" stroke-width="2" '
-        f'stroke-linejoin="round" stroke-linecap="round"/>'
-    )
-
-    max_i = max(range(n), key=lambda i: weekly_totals[i][1])
-    for i, (x, y) in enumerate(points):
-        is_max = i == max_i and weekly_totals[i][1] > 0
-        color = ACCENT if is_max else TITLE
-        r = 3.5 if is_max else 2
-        parts.append(
-            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{color}" '
-            f'stroke="{BG}" stroke-width="1">'
-            f'<title>{weekly_totals[i][0]}: {weekly_totals[i][1]} contribution(s)'
-            f'</title></circle>'
-        )
-
-    today = datetime.date.today().isoformat()
-    return card(width, height, "".join(parts),
-                title="Weekly contribution trend (last 26 weeks)",
-                subtitle=f"red dot = peak week · updated {today}")
-
-
-# -------------------------------------------------------------- card 6: top-repos
+# -------------------------------------------------------------- card 8: top-repos
 def render_top_repos(s: dict) -> str:
     width = 700
     repos = sorted(s["repos_meta"], key=lambda r: -r["stargazerCount"])[:5]
-    height = 60 + len(repos) * 40 + 30
+    height = 50 + len(repos) * 36 + 26
 
     parts: list[str] = []
-    y = 70
+    y = 60
     for r in repos:
         name = r["name"]
         desc = (r.get("description") or "").strip()
@@ -508,25 +645,25 @@ def render_top_repos(s: dict) -> str:
 
         parts.append(
             f'<a xlink:href="{escape(r["url"])}" target="_blank">'
-            f'<text x="22" y="{y}" fill="{TITLE}" font-size="13" '
+            f'<text x="22" y="{y}" fill="{TITLE}" font-size="12" '
             f'font-weight="700">{escape(name)}</text></a>'
         )
         parts.append(
-            f'<text x="{width - 22}" y="{y}" fill="{MUTED}" font-size="11" '
+            f'<text x="{width - 22}" y="{y}" fill="{MUTED}" font-size="10" '
             f'text-anchor="end">★ {stars}  ·  ⑂ {forks}</text>'
         )
         if desc:
             parts.append(
-                f'<text x="22" y="{y + 16}" fill="{TEXT}" font-size="11">'
+                f'<text x="22" y="{y + 14}" fill="{TEXT}" font-size="10">'
                 f'{escape(desc)}</text>'
             )
-        dot_y = y + 32
+        dot_y = y + 28
         parts.append(
-            f'<circle cx="28" cy="{dot_y - 4}" r="4" fill="{lang_color}"/>'
-            f'<text x="40" y="{dot_y}" fill="{MUTED}" font-size="10">'
+            f'<circle cx="28" cy="{dot_y - 4}" r="3.5" fill="{lang_color}"/>'
+            f'<text x="38" y="{dot_y}" fill="{MUTED}" font-size="9">'
             f'{escape(lang_name)}</text>'
         )
-        y += 40
+        y += 36
 
     today = datetime.date.today().isoformat()
     return card(width, height, "".join(parts),
@@ -534,7 +671,7 @@ def render_top_repos(s: dict) -> str:
                 subtitle=f"by stars · updated {today}")
 
 
-# -------------------------------------------------------------- card 7: repo-tiles
+# -------------------------------------------------------------- card 9: repo-tiles
 def render_repo_tiles(s: dict) -> str:
     width = 700
     repos = sorted(
@@ -554,11 +691,10 @@ def render_repo_tiles(s: dict) -> str:
     gap = 8
     grid_w = cols * (tile + gap) - gap
     grid_h = rows * (tile + gap) - gap
-    margin_top = 60
+    margin_top = 50
     margin_left = (width - grid_w) / 2
 
     parts: list[str] = []
-
     for i, r in enumerate(repos):
         col = i % cols
         row = i // cols
@@ -579,16 +715,16 @@ def render_repo_tiles(s: dict) -> str:
             f'<title>{escape(r["name"])} · {escape(lang)} · ★ {stars}</title>'
             f'</rect>'
             f'<text x="{x + tile/2}" y="{y + tile/2 + 4}" fill="white" '
-            f'font-size="13" font-weight="700" text-anchor="middle" '
+            f'font-size="12" font-weight="700" text-anchor="middle" '
             f'pointer-events="none">{escape(label)}</text>'
             f'</a>'
         )
 
-    height = margin_top + grid_h + 35
+    height = margin_top + grid_h + 30
     today = datetime.date.today().isoformat()
     return card(width, height, "".join(parts),
                 title=f"Repository portfolio — {n} public repos",
-                subtitle=f"each tile coloured by primary language · hover for name & stars · updated {today}")
+                subtitle=f"each tile coloured by primary language · {today}")
 
 
 # ----------------------------------------------------------------- main
@@ -602,17 +738,17 @@ def main() -> None:
           f"contribs={s['total_contributions']}  "
           f"streak now/longest={s['current_streak']}/{s['longest_streak']}")
     print(f"  top languages: {[(n, f'{p:.1f}%') for n, _, p in s['languages'][:5]]}")
-    top3 = sorted(s['repos_meta'], key=lambda r: -r['stargazerCount'])[:3]
-    print(f"  top repos: {[(r['name'], r['stargazerCount']) for r in top3]}")
 
     cards = [
-        ("stats.svg",          render_stats(s)),
-        ("top-langs.svg",      render_languages(s)),
-        ("streak.svg",         render_streak(s)),
-        ("activity-graph.svg", render_activity_graph(s)),
-        ("weekly-trend.svg",   render_weekly_trend(s)),
-        ("top-repos.svg",      render_top_repos(s)),
-        ("repo-tiles.svg",     render_repo_tiles(s)),
+        ("stats.svg",                render_stats(s)),
+        ("top-langs.svg",            render_languages(s)),
+        ("streak.svg",               render_streak(s)),
+        ("weekday-distribution.svg", render_weekday_distribution(s)),
+        ("cumulative-curve.svg",     render_cumulative_curve(s)),
+        ("weekly-trend.svg",         render_weekly_trend(s)),
+        ("activity-graph.svg",       render_activity_graph(s)),
+        ("top-repos.svg",            render_top_repos(s)),
+        ("repo-tiles.svg",           render_repo_tiles(s)),
     ]
     for name, svg in cards:
         (OUT / name).write_text(svg)
