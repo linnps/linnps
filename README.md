@@ -160,9 +160,9 @@ rendered for each device type.
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=linnps&show_icons=true&hide_border=false&border_color=E5E5E5&title_color=3B6EA8&icon_color=C04040&text_color=333333&bg_color=FFFFFF&include_all_commits=true&count_private=true&rank_icon=github" alt="GitHub Stats" height="170" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=linnps&theme=default" alt="GitHub Stats" height="200" />
 &nbsp;
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=linnps&layout=compact&hide_border=false&border_color=E5E5E5&title_color=3B6EA8&text_color=333333&bg_color=FFFFFF&langs_count=8" alt="Top Languages" height="170" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=linnps&theme=default" alt="Languages by repo count" height="200" />
 
 <br/>
 <br/>
