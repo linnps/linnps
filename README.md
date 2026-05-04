@@ -4,7 +4,7 @@
   <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=620&lines=Hands-on+machine+learning;Synthetic+data%2C+from-scratch+models;Dashboards+over+benchmark+numbers" alt="header" />
 </a>
 
-### Materials PhD · UIUC CS · several years of engineering experience
+### Purdue PhD · UIUC CS · several years of engineering experience
 
 </div>
 
@@ -12,7 +12,7 @@
 
 ## 👋 About
 
-I'm an engineer with a research-science background — a Materials PhD
+I'm an engineer with a research-science background — a Purdue PhD
 followed by graduate CS work at UIUC — and several years of building
 things in industry. These days I'm on a self-directed tour of machine
 learning, turning each canonical topic into a small, self-contained
