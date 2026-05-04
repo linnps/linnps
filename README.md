@@ -80,6 +80,55 @@ what stands out:
 
 ---
 
+## Other repositories
+
+A short tour of the older public repos on this profile — they pre-date
+the current ML focus and span device-physics simulation, deep-learning
+research, full-stack web services, a desktop application, and IoT /
+robotics. Together they show the breadth of programming work behind the
+ML reference set above.
+
+### Semiconductor device simulation — TCAD (Silvaco Athena/Atlas)
+
+Numerical simulations of canonical device structures: process flow,
+electrostatic field, carrier concentration, and IV-curve sweeps —
+rendered for each device type.
+
+- [TCAD — Diode](https://github.com/linnps/TCAD-Simulation-Diode)
+- [TCAD — MOSFET](https://github.com/linnps/TCAD-Simulation-MOSFET)
+- [TCAD — BJT](https://github.com/linnps/TCAD-Simulation-Bipolar-Junction-Transistor-BJT)
+- [TCAD — FinFET](https://github.com/linnps/TCAD-simulation-fin-field-effect-transistor-FinFET)
+
+> **Skills demonstrated:** semiconductor device physics · process / device simulation · electrostatic & carrier-transport solvers · IV-curve interpretation
+
+### Deep-learning research
+
+- [**Heart-failure risk prediction (DG-RNN on MIMIC-III)**](https://github.com/linnps/DLH_Team38_Final) — Domain-Knowledge-Guided Recurrent Neural Network with knowledge-graph features, comparing against standard EHR risk-prediction models. PyTorch + PyHealth. Coursework for *Deep Learning for Healthcare* (UIUC CS 598).
+
+> **Skills demonstrated:** PyTorch · RNN / GRU on irregular time-stamped sequences · knowledge-graph integration · PyHealth · clinical EHR data handling
+
+### Web / backend services
+
+- [**RESTful API from scratch**](https://github.com/linnps/Self-made-RESTful-API) — Express + MongoDB; full GET / PUT / PATCH / DELETE article CRUD; tested via Postman.
+- [**Online to-do list service**](https://github.com/linnps/Online-to-do-list-service) — Node.js + MongoDB on Heroku, with per-user collections and weather / location enrichment.
+- [**Newsletter sign-up service**](https://github.com/linnps/Newsletter-Online-Sign-Up-Service) — Node.js + MailChimp on Heroku.
+
+> **Skills demonstrated:** Node.js · Express · REST API design · MongoDB · third-party API integration · cloud deployment
+
+### Desktop application
+
+- [**Web Browser — three-tier C# desktop app**](https://github.com/linnps/Web-Browser-three-tier-graphical-event-driven-desktop-application) — Object-oriented event-driven browser with bookmark / history managers backed by SQL. Built incrementally from a single button to a full multi-tab application.
+
+> **Skills demonstrated:** OOP · C# / WinForms · event-driven UI · multi-tier architecture · SQL persistence
+
+### IoT / robotics
+
+- [**Self-driving car — environment scanning + autonomous driving**](https://github.com/linnps/iot-sp2022-lab1) — Lab for *IoT Systems* (UIUC CS 437). Mapping the local environment and driving around obstacles.
+
+> **Skills demonstrated:** IoT pipelines · sensor data processing · simple autonomous control loops
+
+---
+
 ## Stack
 
 <div align="center">
