@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://github.com/linnps">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=620&lines=Hands-on+machine+learning;Synthetic+data%2C+from-scratch+models;Dashboards+over+benchmark+numbers" alt="header" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=720&lines=Reference+implementations+of+the+ML+curriculum;Synthetic+data+with+known+ground+truth;Dashboards+over+benchmark+numbers" alt="header" />
 </a>
 
 ### Purdue PhD · UIUC CS · several years of engineering experience
@@ -12,36 +12,44 @@
 
 ## 👋 About
 
-I'm an engineer with a research-science background — a Purdue PhD
-followed by graduate CS work at UIUC — and several years of building
-things in industry. These days I'm on a self-directed tour of machine
-learning, turning each canonical topic into a small, self-contained
-project I can point at and say *"I understand this from the inside."*
+Engineer with a research-science background — a Purdue PhD followed
+by graduate CS work at UIUC — and a multi-year track record of
+shipping ML and engineering systems in industry. The repos linked
+here put that experience to a different use: distilling the canonical
+machine-learning curriculum into a series of small, well-instrumented
+**reference implementations** that other people can read, run, and
+modify.
 
-> 🔭 &nbsp;**Currently** — working through the major branches of ML hands-on, from classical foundations to LLMs and RL
->
-> 🌱 &nbsp;**Sharpening** — deep learning, modern LLM patterns (RAG, transformers), and MLOps fundamentals
->
-> ⚡ &nbsp;**Approach** — synthetic data first · from-scratch implementations · dashboards over benchmark numbers · reflection at the end
->
-> 💬 &nbsp;**Ask me about** — anything ML-adjacent, or how to turn a hard topic into a small reproducible project
+Each one picks a single canonical topic, strips it down to its
+essential moving parts, and explains it through code and
+visualizations rather than equations and prose.
 
-I learn fastest by re-implementing rather than by reading, so most of
-what's on this profile is exactly that: short, focused projects with
-synthetic data, charts that explain themselves, and a *"what I learned"*
-note at the bottom of every README.
+> 🔭 &nbsp;**Currently** — turning the major branches of ML into reference projects, one repo per topic
+>
+> 🛠️ &nbsp;**Background** — research science · applied ML engineering · production systems · technical mentoring
+>
+> ⚡ &nbsp;**Approach** — synthetic data with known ground truth · code that reads like an explanation · dashboards designed to be scanned in 30 seconds
+>
+> 💬 &nbsp;**Useful for** — anyone who wants a particular ML concept implemented end-to-end, without the usual benchmark-fetishism
+
+These projects are deliberately small. The goal isn't state-of-the-art
+numbers — it's to make every step of a working ML pipeline **visible,
+modifiable, and teachable**. If they help someone go from *"I've read
+the paper"* to *"I can build it from scratch,"* they've done their job.
 
 ---
 
-## What I'm building
+## What's in the repo list
 
-A structured tour of the major branches of machine learning. Each
-project is small, self-contained, and built around the same recipe:
+A reference set covering the major branches of machine learning —
+one project per topic, each one self-contained and built to the
+same recipe so the boilerplate is invisible and the *content* is
+what stands out:
 
-- A synthetic data generator (no third-party / copyrighted datasets)
-- A from-scratch implementation in PyTorch or scikit-learn
+- A synthetic data generator with a **known generative process** — so models can be evaluated against the *truth*, not just a holdout score
+- A from-scratch implementation in PyTorch or scikit-learn — minimal dependencies, readable top-to-bottom
 - A dashboard-style README with embedded charts in a unified palette
-- A *"What I learned"* reflection at the end
+- A *"What I learned"* reflection at the end — not a metrics dump
 
 <table>
 <tr>
@@ -88,14 +96,14 @@ project is small, self-contained, and built around the same recipe:
 
 ---
 
-## How I work
+## Principles these repos are written to
 
-> *"Synthetic data first.  Dashboards over benchmarks.  Boring code, sharp insights.  Always end with what I learned."*
+> *"Synthetic data first.  Dashboards over benchmarks.  Boring code, sharp insights.  Always end with what was learned."*
 
-- **Synthetic data first.** When the generative process is known, models can be evaluated against the *truth*, not just a holdout number. Coefficient recovery, ground-truth ARI, theoretical noise floors — all impossible on standard benchmarks.
+- **Synthetic data first.** When the generative process is known, models can be evaluated against the *truth*, not just a holdout number. Coefficient recovery, ground-truth ARI, theoretical noise floors — diagnostics that benchmark datasets cannot offer.
 - **Dashboards over benchmarks.** Every project ends with figures a reader can scan in 30 seconds, not a single F1 score buried in a table.
-- **Boring code, sharp insights.** Code prioritizes clarity over cleverness. The interesting part is in the analysis and the visualizations, not in the lines.
-- **Reflection beats reporting.** Metrics describe what happened. *"What I learned"* sections describe what I'd do differently — that's the part worth keeping.
+- **Boring code, sharp insights.** Code prioritizes clarity over cleverness. The interesting part lives in the analysis and visualizations, not in the lines themselves.
+- **Reflection beats reporting.** Metrics describe what happened. *"What I learned"* sections describe what I would do differently next time — and that's the part worth keeping six months later.
 
 ---
 
