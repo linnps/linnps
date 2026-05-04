@@ -8,6 +8,21 @@
 
 ---
 
+## 👋 About
+
+I'm an engineer who likes building things end-to-end and writing the
+kind of code that's pleasant to read six months later. Currently I'm
+on a self-directed tour of machine learning — turning each canonical
+topic into a small, self-contained project I can point at and say
+*"I understand this from the inside."*
+
+I learn fastest by re-implementing rather than by reading, so most of
+what's on this profile is exactly that: short, focused projects with
+synthetic data, charts that explain themselves, and a "what I learned"
+note at the bottom of every README.
+
+---
+
 ## What I'm building
 
 A structured tour of the major branches of machine learning. Each
