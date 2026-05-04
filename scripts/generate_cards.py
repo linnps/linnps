@@ -67,7 +67,8 @@ query($login: String!) {
     login
     createdAt
     followers { totalCount }
-    repositories(first: 100, isFork: false, ownerAffiliations: OWNER,
+    repositories(first: 100, isFork: false, privacy: PUBLIC,
+                 ownerAffiliations: OWNER,
                  orderBy: { field: STARGAZERS, direction: DESC }) {
       totalCount
       nodes {
@@ -685,7 +686,17 @@ def render_repo_tiles(s: dict) -> str:
         return card(width, 180, "", title="Repository portfolio")
 
     n = len(repos)
-    cols = 13
+    # Pick a column count that fills rows evenly (avoids a stranded last row).
+    if n <= 6:
+        cols = n
+    elif n % 8 == 0:
+        cols = 8
+    elif n % 9 == 0:
+        cols = 9
+    elif n <= 18:
+        cols = 8 if n % 8 >= n % 9 else 9
+    else:
+        cols = 13
     rows = math.ceil(n / cols)
     tile = 42
     gap = 8
