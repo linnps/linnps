@@ -160,16 +160,18 @@ rendered for each device type.
 
 <div align="center">
 
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=linnps&theme=default" alt="GitHub Stats" height="200" />
+<img src="./assets/cards/stats.svg" alt="GitHub Stats" height="210" />
 &nbsp;
-<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=linnps&theme=default" alt="Languages by repo count" height="200" />
+<img src="./assets/cards/top-langs.svg" alt="Most used languages" height="210" />
 
 <br/>
 <br/>
 
-<img src="https://streak-stats.demolab.com?user=linnps&hide_border=false&border=E5E5E5&background=FFFFFF&stroke=E5E5E5&ring=3B6EA8&fire=C04040&currStreakLabel=3B6EA8&sideLabels=333333&dates=7A7A7A&currStreakNum=333333&sideNums=333333&dayNum=333333" alt="Streak" height="170" />
+<img src="./assets/cards/streak.svg" alt="Activity & streaks" width="700" />
 
 </div>
+
+<sub>The three cards above are **self-generated** by [`scripts/generate_cards.py`](./scripts/generate_cards.py) on a daily GitHub Action ([workflow](./.github/workflows/update-cards.yml)) — no third-party stat-card service in the loop, so no `DEPLOYMENT_PAUSED` outages and no profile data sent to anyone else's server.</sub>
 
 ---
 
