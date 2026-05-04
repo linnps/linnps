@@ -4,21 +4,31 @@
   <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=620&lines=Hands-on+machine+learning;Synthetic+data%2C+from-scratch+models;Dashboards+over+benchmark+numbers" alt="header" />
 </a>
 
+### Materials PhD · UIUC CS · several years of engineering experience
+
 </div>
 
 ---
 
 ## 👋 About
 
-I'm an engineer who likes building things end-to-end and writing the
-kind of code that's pleasant to read six months later. Currently I'm
-on a self-directed tour of machine learning — turning each canonical
-topic into a small, self-contained project I can point at and say
-*"I understand this from the inside."*
+I'm an engineer with a research-science background — a Materials PhD
+followed by graduate CS work at UIUC — and several years of building
+things in industry. These days I'm on a self-directed tour of machine
+learning, turning each canonical topic into a small, self-contained
+project I can point at and say *"I understand this from the inside."*
+
+> 🔭 &nbsp;**Currently** — working through the major branches of ML hands-on, from classical foundations to LLMs and RL
+>
+> 🌱 &nbsp;**Sharpening** — deep learning, modern LLM patterns (RAG, transformers), and MLOps fundamentals
+>
+> ⚡ &nbsp;**Approach** — synthetic data first · from-scratch implementations · dashboards over benchmark numbers · reflection at the end
+>
+> 💬 &nbsp;**Ask me about** — anything ML-adjacent, or how to turn a hard topic into a small reproducible project
 
 I learn fastest by re-implementing rather than by reading, so most of
 what's on this profile is exactly that: short, focused projects with
-synthetic data, charts that explain themselves, and a "what I learned"
+synthetic data, charts that explain themselves, and a *"what I learned"*
 note at the bottom of every README.
 
 ---
