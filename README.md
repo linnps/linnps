@@ -1,75 +1,96 @@
-<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=yourGitHub.yourGitHub" />
+<div align="center">
 
-<h1 align="center">
-    <img src="https://readme-typing-svg.herokuapp.com/?font=Righteous&size=35&center=true&vCenter=true&width=500&height=70&duration=4000&lines=Hi+There!+👋;+I'm+Ander!;" />
-</h1>
+<a href="https://github.com/linnps">
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=620&lines=Hands-on+machine+learning;Synthetic+data%2C+from-scratch+models;Dashboards+over+benchmark+numbers" alt="header" />
+</a>
 
-<h3 align="center">A pioneering Scientific Research Engineer from the USA 🇺🇸</h3>
+</div>
 
-<br/>
+---
+
+## What I'm building
+
+A structured tour of the major branches of machine learning. Each
+project is small, self-contained, and built around the same recipe:
+
+- A synthetic data generator (no third-party / copyrighted datasets)
+- A from-scratch implementation in PyTorch or scikit-learn
+- A dashboard-style README with embedded charts in a unified palette
+- A *"What I learned"* reflection at the end
+
+<table>
+<tr>
+<th align="left">Topic</th>
+<th align="left">Demonstrated skills</th>
+</tr>
+<tr><td><b>Supervised — regression</b></td>
+<td>OLS · Ridge · Lasso · coefficient-recovery diagnostics</td></tr>
+<tr><td><b>Supervised — classification</b></td>
+<td>Logistic · Decision Tree · Random Forest · Gradient Boosting</td></tr>
+<tr><td><b>Unsupervised — clustering</b></td>
+<td>K-means · DBSCAN · Agglomerative · ARI vs Silhouette</td></tr>
+<tr><td><b>Unsupervised — dim reduction</b></td>
+<td>PCA · t-SNE · trustworthiness · scree plots</td></tr>
+<tr><td><b>Deep learning — vision</b></td>
+<td>CNN from scratch · PyTorch · synthetic image rendering</td></tr>
+<tr><td><b>Deep learning — sequence</b></td>
+<td>LSTM · time-series forecasting · seasonal-naive baselines</td></tr>
+<tr><td><b>Deep learning — NLP</b></td>
+<td>Transformer encoder from scratch · attention visualization</td></tr>
+<tr><td><b>Modern AI — LLM</b></td>
+<td>RAG · vector retrieval · refusal-threshold tuning · hallucination measurement</td></tr>
+<tr><td><b>Production / MLOps</b></td>
+<td>FastAPI · Docker · PSI / KS drift monitoring · latency probing</td></tr>
+<tr><td><b>Reinforcement learning</b></td>
+<td>DQN · replay buffer · target network · ε-greedy schedule</td></tr>
+</table>
+
+---
+
+## Stack
 
 <div align="center">
- 
- 🔭 I’m currently leading innovative projects in **semiconductor devices and ML-driven tech**
 
- 🌱 I’m continuously advancing in **AI, Machine Learning, and Big Data Analytics**
+<img src="https://skillicons.dev/icons?i=python,pytorch,sklearn,fastapi,docker,git,github,bash,vscode,linux&perline=10" alt="stack" />
 
-💬 Ask me about **Latest semiconductor technology, clean room operations... or anything [here](https://github.com/yourGitHub/yourGitHub/issues)**
-
-⚡ Fun fact **I've led projects that turned groundbreaking theories into commercial products**
-
- </div>
- 
-<div align="center"> 
-  <a href="linnps@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-333333?style=for-the-badge&logo=gmail&logoColor=red" />
-  </a>
-  <a href="https://www.linkedin.com/in/li-kai-lin/" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank" />
-  </a>
-  <a href="https://linnps.github.io/cv/index.html" target="_blank">
-     <img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white" target="_blank" />
-  </a>
 </div>
 
- <hr/>
- 
-<h2 align="center">⚒️ Technologies and Tools ⚒️</h2>
-<br/>
-<div align="center">
-    <img src="https://skillicons.dev/icons?i=python,java,javascript,nodejs,react,mysql,mongodb,aws,docker,git,tensorflow,matlab" /><br>
-</div>
+**Comfortable with**
+&nbsp;&nbsp; `Python` &nbsp;·&nbsp; `PyTorch` &nbsp;·&nbsp; `scikit-learn` &nbsp;·&nbsp; `pandas` &nbsp;·&nbsp; `NumPy` &nbsp;·&nbsp; `matplotlib` &nbsp;·&nbsp; `FastAPI` &nbsp;·&nbsp; `Docker` &nbsp;·&nbsp; `Git`
 
-<br/>
-<hr/>
+**Working knowledge**
+&nbsp;&nbsp; `SQL` &nbsp;·&nbsp; `Bash` &nbsp;·&nbsp; `JavaScript / TypeScript` &nbsp;·&nbsp; `Hugging Face transformers` &nbsp;·&nbsp; `Linux`
+
+---
+
+## How I work
+
+> *"Synthetic data first.  Dashboards over benchmarks.  Boring code, sharp insights.  Always end with what I learned."*
+
+- **Synthetic data first.** When the generative process is known, models can be evaluated against the *truth*, not just a holdout number. Coefficient recovery, ground-truth ARI, theoretical noise floors — all impossible on standard benchmarks.
+- **Dashboards over benchmarks.** Every project ends with figures a reader can scan in 30 seconds, not a single F1 score buried in a table.
+- **Boring code, sharp insights.** Code prioritizes clarity over cleverness. The interesting part is in the analysis and the visualizations, not in the lines.
+- **Reflection beats reporting.** Metrics describe what happened. *"What I learned"* sections describe what I'd do differently — that's the part worth keeping.
+
+---
+
+## Stats
 
 <div align="center">
-  <h2>🔬 My Contributions 🔬</h2>
-  <br>
-  <img alt="Comming soon" src="https://raw.githubusercontent.com/linnps/linnps/output/github-contribution-grid-snake.svg" />
-  
-  <br/><br/><br/>
-</div>
 
-<hr/>
-
-<h2 align="center">⚡ Stats ⚡</h2>
-<br>
-<div align=center>
-  <img width=390 src="https://github-readme-streak-stats-yourGitHub.vercel.app/?user=yourGitHub&count_private=true&theme=react&border_radius=10" alt="streak stats"/>
-  <img width=390 src="https://github-readme-stats-yourGitHub.vercel.app/api?username=yourGitHub&count_private=true&show_icons=true&theme=react&rank_icon=github&border_radius=10" alt="readme stats" />
-  <br/>
-  <img width=325 align="center" src="https://github-readme-stats-yourGitHub.vercel.app/api/top-langs/?username=yourGitHub&langs_count=8&layout=compact&theme=react&border_radius=10&size_weight=0.5&count_weight=0.5&exclude_repo=github-readme-stats" alt="top langs" />
-</div>
-
-<br/><br/>
-
-<hr/>
+<img src="https://github-readme-stats.vercel.app/api?username=linnps&show_icons=true&hide_border=false&border_color=E5E5E5&title_color=3B6EA8&icon_color=C04040&text_color=333333&bg_color=FFFFFF&include_all_commits=true&count_private=true&rank_icon=github" alt="GitHub Stats" height="170" />
+&nbsp;
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=linnps&layout=compact&hide_border=false&border_color=E5E5E5&title_color=3B6EA8&text_color=333333&bg_color=FFFFFF&langs_count=8" alt="Top Languages" height="170" />
 
 <br/>
+<br/>
+
+<img src="https://streak-stats.demolab.com?user=linnps&hide_border=false&border=E5E5E5&background=FFFFFF&stroke=E5E5E5&ring=3B6EA8&fire=C04040&currStreakLabel=3B6EA8&sideLabels=333333&dates=7A7A7A&currStreakNum=333333&sideNums=333333&dayNum=333333" alt="Streak" height="170" />
+
+</div>
+
+---
 
 <div align="center">
-<a href='https://ko-fi.com/yourKoFiID' target='_blank'><img height='64' style='border:0px;height:64px;' src='' border='0' alt='More to come' /></a>
+<sub>Palette: <code>#3B6EA8</code> blue · <code>#C04040</code> red · <code>#7A7A7A</code> gray · <code>#E5E5E5</code> light gray · <code>#FFFFFF</code> white &nbsp;·&nbsp; the same one used across every project.</sub>
 </div>
-
-<br/>
