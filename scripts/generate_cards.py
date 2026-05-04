@@ -67,7 +67,7 @@ query($login: String!) {
     login
     createdAt
     followers { totalCount }
-    repositories(first: 100, isFork: false, privacy: PUBLIC,
+    repositories(first: 100, isFork: false,
                  ownerAffiliations: OWNER,
                  orderBy: { field: STARGAZERS, direction: DESC }) {
       totalCount
@@ -75,6 +75,7 @@ query($login: String!) {
         name
         description
         url
+        isPrivate
         stargazerCount
         forkCount
         updatedAt
@@ -130,12 +131,25 @@ def fetch() -> dict:
 
 # -------------------------------------------------------------- aggregate
 def aggregate(user: dict) -> dict:
+    """
+    Splits repositories into public + private. Public-derived metrics
+    (stars, languages, top-repos) deliberately ignore private content so
+    nothing identifying about private work leaks into the rendered cards.
+    Private repos are still counted (as anonymous tiles) in repo-tiles.svg.
+    """
     repos = user["repositories"]["nodes"]
-    stars = sum(r["stargazerCount"] for r in repos)
+    public_repos = [r for r in repos if not r.get("isPrivate")]
+    private_repos = [r for r in repos if r.get("isPrivate")]
 
+    # Stars only on public repos — private stars aren't viewer-visible.
+    stars = sum(r["stargazerCount"] for r in public_repos)
+
+    # Language composition only from public bytes (private bytes would
+    # leak the rough nature of the user's private work, e.g. "lots of
+    # Python in private = ML/data work").
     lang_size: dict[str, int] = defaultdict(int)
     lang_color: dict[str, str] = {}
-    for r in repos:
+    for r in public_repos:
         for e in r["languages"]["edges"]:
             n = e["node"]["name"]
             lang_size[n] += e["size"]
@@ -173,7 +187,9 @@ def aggregate(user: dict) -> dict:
     return {
         "user": user["login"],
         "stars": stars,
-        "repos": user["repositories"]["totalCount"],
+        "n_public_repos": len(public_repos),
+        "n_private_repos": len(private_repos),
+        "n_total_repos": len(repos),
         "commits": cc["totalCommitContributions"],
         "prs": cc["totalPullRequestContributions"],
         "issues": cc["totalIssueContributions"],
@@ -185,6 +201,8 @@ def aggregate(user: dict) -> dict:
         "longest_streak": longest,
         "days": days,
         "repos_meta": repos,
+        "public_repos_meta": public_repos,
+        "private_repos_meta": private_repos,
         "created_at": user["createdAt"],
     }
 
@@ -232,21 +250,22 @@ def heat_color(count: int, max_count: int) -> str:
 def render_stats(s: dict) -> str:
     rows = [
         ("Total stars",        s["stars"]),
-        ("Public repos",       s["repos"]),
+        ("Public repos",       s["n_public_repos"]),
+        ("Private repos",      s["n_private_repos"]),
         ("Commits (last yr)",  s["commits"]),
         ("Pull requests",      s["prs"]),
         ("Issues opened",      s["issues"]),
         ("Followers",          s["followers"]),
     ]
     parts: list[str] = []
-    y = 60
+    y = 56
     for label, value in rows:
         parts.append(
             f'<text x="20" y="{y}" fill="{TEXT}" font-size="11">{escape(label)}</text>'
             f'<text x="320" y="{y}" fill="{ACCENT}" font-size="13" font-weight="700" '
             f'text-anchor="end">{value:,}</text>'
         )
-        y += 19
+        y += 17
     today = datetime.date.today().isoformat()
     return card(340, 195, "".join(parts),
                 title=f"{s['user']} — GitHub Stats",
@@ -628,7 +647,8 @@ def render_activity_graph(s: dict) -> str:
 # -------------------------------------------------------------- card 8: top-repos
 def render_top_repos(s: dict) -> str:
     width = 700
-    repos = sorted(s["repos_meta"], key=lambda r: -r["stargazerCount"])[:5]
+    # Strictly public — never surface private repo names / descriptions here.
+    repos = sorted(s["public_repos_meta"], key=lambda r: -r["stargazerCount"])[:5]
     height = 50 + len(repos) * 36 + 26
 
     parts: list[str] = []
@@ -674,18 +694,35 @@ def render_top_repos(s: dict) -> str:
 
 # -------------------------------------------------------------- card 9: repo-tiles
 def render_repo_tiles(s: dict) -> str:
+    """
+    Mosaic of every owned non-fork repo as a coloured tile.
+
+    Public tiles  → primary-language colour, two-letter name initial,
+                    clickable link, hover tooltip with name/lang/stars.
+    Private tiles → flat muted-grey square, no name, no link, tooltip
+                    just says "Private repository".
+
+    The visual story: visitor sees the breadth (N total repos) and how
+    much of it is public (coloured) vs private (grey). Nothing
+    identifying about private repos leaks.
+    """
     width = 700
-    repos = sorted(
-        s["repos_meta"],
-        key=lambda r: (
-            (r.get("primaryLanguage") or {}).get("name") or "zzz",
-            -r["stargazerCount"],
-        ),
+
+    public_sorted = sorted(
+        s["public_repos_meta"],
+        key=lambda r: ((r.get("primaryLanguage") or {}).get("name") or "zzz",
+                       -r["stargazerCount"]),
     )
+    private_sorted = sorted(s["private_repos_meta"], key=lambda r: r["name"])
+    repos = public_sorted + private_sorted
+
     if not repos:
         return card(width, 180, "", title="Repository portfolio")
 
     n = len(repos)
+    n_pub = len(public_sorted)
+    n_priv = len(private_sorted)
+
     # Pick a column count that fills rows evenly (avoids a stranded last row).
     if n <= 6:
         cols = n
@@ -711,40 +748,61 @@ def render_repo_tiles(s: dict) -> str:
         row = i // cols
         x = margin_left + col * (tile + gap)
         y = margin_top + row * (tile + gap)
-        primary = r.get("primaryLanguage") or {}
-        color = primary.get("color") or LIGHT
-        lang = primary.get("name") or "—"
-        stars = r["stargazerCount"]
 
-        label = "".join(ch for ch in r["name"] if ch.isalnum())[:2].upper() or "?"
-
-        parts.append(
-            f'<a xlink:href="{escape(r["url"])}" target="_blank">'
-            f'<rect x="{x}" y="{y}" width="{tile}" height="{tile}" '
-            f'rx="6" fill="{color}" fill-opacity="0.85" '
-            f'stroke="{LIGHT}" stroke-width="0.5">'
-            f'<title>{escape(r["name"])} · {escape(lang)} · ★ {stars}</title>'
-            f'</rect>'
-            f'<text x="{x + tile/2}" y="{y + tile/2 + 4}" fill="white" '
-            f'font-size="12" font-weight="700" text-anchor="middle" '
-            f'pointer-events="none">{escape(label)}</text>'
-            f'</a>'
-        )
+        if r.get("isPrivate"):
+            # Anonymous grey tile — NO link, NO name, NO stars.
+            parts.append(
+                f'<rect x="{x}" y="{y}" width="{tile}" height="{tile}" '
+                f'rx="6" fill="#BFBFBF" fill-opacity="0.42" '
+                f'stroke="{LIGHT}" stroke-width="0.5">'
+                f'<title>Private repository</title>'
+                f'</rect>'
+                f'<text x="{x + tile/2}" y="{y + tile/2 + 5}" fill="{MUTED}" '
+                f'font-size="14" font-weight="700" text-anchor="middle" '
+                f'pointer-events="none">·</text>'
+            )
+        else:
+            primary = r.get("primaryLanguage") or {}
+            color = primary.get("color") or LIGHT
+            lang = primary.get("name") or "—"
+            stars = r["stargazerCount"]
+            label = "".join(ch for ch in r["name"] if ch.isalnum())[:2].upper() or "?"
+            parts.append(
+                f'<a xlink:href="{escape(r["url"])}" target="_blank">'
+                f'<rect x="{x}" y="{y}" width="{tile}" height="{tile}" '
+                f'rx="6" fill="{color}" fill-opacity="0.85" '
+                f'stroke="{LIGHT}" stroke-width="0.5">'
+                f'<title>{escape(r["name"])} · {escape(lang)} · ★ {stars}</title>'
+                f'</rect>'
+                f'<text x="{x + tile/2}" y="{y + tile/2 + 4}" fill="white" '
+                f'font-size="12" font-weight="700" text-anchor="middle" '
+                f'pointer-events="none">{escape(label)}</text>'
+                f'</a>'
+            )
 
     height = margin_top + grid_h + 30
     today = datetime.date.today().isoformat()
-    return card(width, height, "".join(parts),
-                title=f"Repository portfolio — {n} public repos",
-                subtitle=f"each tile coloured by primary language · {today}")
+
+    if n_priv > 0:
+        title = f"Repository portfolio — {n} total ({n_pub} public · {n_priv} private)"
+        subtitle = (f"public tiles: primary-language colour · "
+                    f"private tiles: anonymised grey · {today}")
+    else:
+        title = f"Repository portfolio — {n} public repos"
+        subtitle = f"each tile coloured by primary language · {today}"
+
+    return card(width, height, "".join(parts), title=title, subtitle=subtitle)
 
 
 # ----------------------------------------------------------------- main
 def main() -> None:
-    print(f"fetching public stats for {USER}…")
+    print(f"fetching stats for {USER}…")
     user = fetch()
     s = aggregate(user)
 
-    print(f"  stars={s['stars']}  repos={s['repos']}  "
+    print(f"  stars={s['stars']}  "
+          f"repos={s['n_total_repos']} ({s['n_public_repos']} pub / "
+          f"{s['n_private_repos']} priv)  "
           f"commits(yr)={s['commits']}  prs={s['prs']}  "
           f"contribs={s['total_contributions']}  "
           f"streak now/longest={s['current_streak']}/{s['longest_streak']}")
