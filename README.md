@@ -56,25 +56,25 @@ what stands out:
 <th align="left">Topic</th>
 <th align="left">Demonstrated skills</th>
 </tr>
-<tr><td><b>Supervised — regression</b></td>
+<tr><td><a href="https://github.com/linnps/ml-01-linear-regression"><b>Supervised — regression</b></a></td>
 <td>OLS · Ridge · Lasso · coefficient-recovery diagnostics</td></tr>
-<tr><td><b>Supervised — classification</b></td>
+<tr><td><a href="https://github.com/linnps/ml-02-classification-tree"><b>Supervised — classification</b></a></td>
 <td>Logistic · Decision Tree · Random Forest · Gradient Boosting</td></tr>
-<tr><td><b>Unsupervised — clustering</b></td>
+<tr><td><a href="https://github.com/linnps/ml-03-clustering"><b>Unsupervised — clustering</b></a></td>
 <td>K-means · DBSCAN · Agglomerative · ARI vs Silhouette</td></tr>
-<tr><td><b>Unsupervised — dim reduction</b></td>
+<tr><td><a href="https://github.com/linnps/ml-04-pca-tsne"><b>Unsupervised — dim reduction</b></a></td>
 <td>PCA · t-SNE · trustworthiness · scree plots</td></tr>
-<tr><td><b>Deep learning — vision</b></td>
+<tr><td><a href="https://github.com/linnps/ml-05-cnn-image-classification"><b>Deep learning — vision</b></a></td>
 <td>CNN from scratch · PyTorch · synthetic image rendering</td></tr>
-<tr><td><b>Deep learning — sequence</b></td>
+<tr><td><a href="https://github.com/linnps/ml-06-rnn-lstm-timeseries"><b>Deep learning — sequence</b></a></td>
 <td>LSTM · time-series forecasting · seasonal-naive baselines</td></tr>
-<tr><td><b>Deep learning — NLP</b></td>
+<tr><td><a href="https://github.com/linnps/ml-07-transformer-nlp"><b>Deep learning — NLP</b></a></td>
 <td>Transformer encoder from scratch · attention visualization</td></tr>
-<tr><td><b>Modern AI — LLM</b></td>
+<tr><td><a href="https://github.com/linnps/ml-08-rag-llm"><b>Modern AI — LLM</b></a></td>
 <td>RAG · vector retrieval · refusal-threshold tuning · hallucination measurement</td></tr>
-<tr><td><b>Production / MLOps</b></td>
+<tr><td><a href="https://github.com/linnps/ml-09-mlops-deploy"><b>Production / MLOps</b></a></td>
 <td>FastAPI · Docker · PSI / KS drift monitoring · latency probing</td></tr>
-<tr><td><b>Reinforcement learning</b></td>
+<tr><td><a href="https://github.com/linnps/ml-10-reinforcement-learning"><b>Reinforcement learning</b></a></td>
 <td>DQN · replay buffer · target network · ε-greedy schedule</td></tr>
 </table>
 
