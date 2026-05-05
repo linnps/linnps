@@ -80,6 +80,24 @@ what stands out:
 
 ---
 
+## 🎮 Live · [Algorithm Playground](https://linnps.github.io/algorithm-playground/)
+
+> **[linnps.github.io/algorithm-playground/](https://linnps.github.io/algorithm-playground/)**
+
+Interactive CS algorithm visualizations — sorting, pathfinding, graphs,
+trees, dynamic programming, and more. Pure HTML / CSS / JS, no build
+tooling, runs entirely in the browser.
+
+The complement to the ML portfolio above: where those repos demonstrate
+model-building from scratch, this site shows algorithmic thinking from
+scratch. Same blue / red / gray palette, same "boring code, sharp
+insights" philosophy. Currently 1/10 algorithms live (sorting), 9 in
+the queue.
+
+[**Source on GitHub**](https://github.com/linnps/algorithm-playground)
+
+---
+
 ## Other repositories
 
 A short tour of the older public repos on this profile — they pre-date
