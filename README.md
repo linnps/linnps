@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://github.com/linnps">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=720&lines=Reference+implementations+of+the+ML+curriculum;Synthetic+data+with+known+ground+truth;Dashboards+over+benchmark+numbers" alt="header" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&duration=2400&pause=900&color=3B6EA8&center=true&vCenter=true&width=820&lines=Years+of+shipping+full-stack+ML+and+infrastructure;Researcher%27s+rigour+%C2%B7+engineer%27s+track+record;Reference+implementations+grounded+in+real+work" alt="header" />
 </a>
 
 ### Purdue PhD · UIUC CS · several years of engineering experience
